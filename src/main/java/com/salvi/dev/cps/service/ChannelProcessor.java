@@ -4,15 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ChannelProcessor {
+public abstract class ChannelProcessor {
+     public abstract Output function(Parameter parameters, Input inputs);
 
-    Output outputs;
-
-    public ChannelProcessor() {
-        outputs = new Output();
-    }
-
-    public List<Double> readChannel(String name, List<String> lines) {
+     public static List<Double> readChannel(String name, List<String> lines) {
         for (String line : lines) {
             if (line.startsWith(name)) {
                 String[] parts = line.split(name)[1].trim().split(",");
@@ -25,12 +20,12 @@ public class ChannelProcessor {
         throw new IllegalArgumentException("Channel " + name + " not found in channels.txt");
     }
 
-    public void writeChannel(String name, List<Double> data) {
+    public static void writeChannel(String name, List<Double> data) {
         // Placeholder for writing channel data
         System.out.println("Channel " + name + ": " + data);
     }
 
-    public Parameter readParameters(List<String> paramLines) {
+    public static Parameter readParameters(List<String> paramLines) {
         Parameter parameter = new Parameter();
         String param1 = paramLines.getFirst().split(",")[0].trim().toLowerCase();
         String param2 = paramLines.get(1).split(",")[0].trim().toLowerCase();
@@ -42,55 +37,7 @@ public class ChannelProcessor {
         return parameter;
     }
 
-    public Metric calculateMetric(String name, List<Double> data) {
-        // Placeholder for calculating metrics
-        Metric metric = new Metric();
-        switch (name.toLowerCase()) {
-            case "b":
-                metric.setB(data.stream().mapToDouble(Double::doubleValue).average().orElse(0.0));
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid metric name: " + name);
-        }
-        return metric;
-    }
-
-    public Output getChannelDataForA(Parameter parameters, Input inputs) {
-        outputs.getChannel()
-                .setA(inputs.getChannel().getX().stream().map(x -> (1/x))
-                        .collect(Collectors.toList()));
-        return outputs;
-    }
-
-    public Output getChannelDataForBandMetric_b(Parameter parameters, Input inputs) {
-       try {
-            List<Double> B = inputs.getChannel().getA().stream()
-                    .map(a -> a + inputs.getChannel().getY().get(inputs.getChannel().getA().indexOf(a)))
-                    .collect(Collectors.toList());
-            Metric metricB = calculateMetric("b", B);
-            outputs.getChannel().setB(B);
-            outputs.setMetric(metricB);
-        } catch (NullPointerException e) {
-            throw new IllegalArgumentException("Channel A or Y is empty");
-        }
-        return outputs;
-    }
-
-    public Output getChannelDataForY(Parameter parameters, Input inputs) {
-        List<Double> Y = inputs.getChannel().getX().stream().map(x -> parameters.getM() * x + parameters.getC())
-                .collect(Collectors.toList());
-        outputs.getChannel().setY(Y);
-        return outputs;
-    }
-
-    public Output getChannelDataForC(Parameter parameters, Input inputs) {
-        List<Double> C = inputs.getChannel().getX().stream().map(x -> x + inputs.getMetric().getB())
-                .collect(Collectors.toList());
-        outputs.getChannel().setC(C);
-        return outputs;
-    }
-
-    private void setParameter(String param, double value, Parameter parameter) {
+    private static void setParameter(String param, double value, Parameter parameter) {
         switch (param) {
             case "m":
                 parameter.setM(value);

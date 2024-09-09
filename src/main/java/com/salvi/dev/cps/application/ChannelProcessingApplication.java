@@ -1,5 +1,9 @@
 package com.salvi.dev.cps.application;
 
+// import static com.salvi.dev.cps.service.ChannelProcessor.writeChannel;//implemented but unused functionality
+import static com.salvi.dev.cps.service.ChannelProcessor.readChannel;
+import static com.salvi.dev.cps.service.ChannelProcessor.readParameters;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,6 +12,10 @@ import java.util.List;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.salvi.dev.cps.service.ChannelProcessor;
+import com.salvi.dev.cps.service.ChannelProcessorAImpl;
+import com.salvi.dev.cps.service.ChannelProcessorBImpl;
+import com.salvi.dev.cps.service.ChannelProcessorCImpl;
+import com.salvi.dev.cps.service.ChannelProcessorYImpl;
 import com.salvi.dev.cps.service.Input;
 import com.salvi.dev.cps.service.Output;
 import com.salvi.dev.cps.service.Parameter;
@@ -16,34 +24,40 @@ import com.salvi.dev.cps.service.Parameter;
 public class ChannelProcessingApplication {
 
 	public static void main(String[] args) {
-		ChannelProcessor processor = new ChannelProcessor();
+
 		Input input = new Input();
 		Parameter parameter = new Parameter();
-		Output outputs = new Output();
+		Output outputF1, outputF2, outputF3, outputF4 = new Output();
+
+		ChannelProcessor processor;
 
 		try {
 			// Read input channels from channels.txt
 			List<String> channelLines = Files.readAllLines(Paths.get("channels.txt"));
-			input.getChannel().setX(processor.readChannel("X", channelLines));
+			input.getChannel().setX(readChannel("X", channelLines));
 
 			// Read parameters from parameters.txt
 			List<String> paramLines = Files.readAllLines(Paths.get("parameters.txt"));
-			parameter = processor.readParameters(paramLines);
+			parameter = readParameters(paramLines);
 
 			// Process channels using the defined functions
-			outputs = processor.getChannelDataForY(parameter, input);
-			input.getChannel().setY(outputs.getChannel().getY());
+			processor = new ChannelProcessorYImpl();
+			outputF1 = processor.function(parameter, input);
+			input.getChannel().setY(outputF1.getChannel().getY());
 
-			outputs = processor.getChannelDataForA(parameter, input);
-			input.getChannel().setA(outputs.getChannel().getA());
+			processor = new ChannelProcessorAImpl();
+			outputF2 = processor.function(parameter, input);
+			input.getChannel().setA(outputF2.getChannel().getA());
 
-			outputs = processor.getChannelDataForBandMetric_b(parameter, input);
-			input.getChannel().setB(outputs.getChannel().getB());
-			input.setMetric(outputs.getMetric());
+			processor = new ChannelProcessorBImpl();
+			outputF3 = processor.function(parameter, input);
+			input.getChannel().setB(outputF3.getChannel().getB());
+			input.setMetric(outputF3.getMetric());
 
-			outputs = processor.getChannelDataForC(parameter, input);
+			processor = new ChannelProcessorCImpl();
+			outputF4 = processor.function(parameter, input);// unused function4 output
 
-			System.out.println("Metric b: " + outputs.getMetric().getB());
+			System.out.println("Metric b: " + outputF3.getMetric().getB());
 
 		} catch (IOException e) {
 			e.printStackTrace();

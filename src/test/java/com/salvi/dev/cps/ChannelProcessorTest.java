@@ -1,20 +1,29 @@
 package com.salvi.dev.cps;
 
+import static com.salvi.dev.cps.service.ChannelProcessor.readChannel;
+import static com.salvi.dev.cps.service.ChannelProcessor.readParameters;
+import static com.salvi.dev.cps.service.ChannelProcessor.writeChannel;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import com.salvi.dev.cps.service.ChannelProcessor;
+import com.salvi.dev.cps.service.ChannelProcessorAImpl;
+import com.salvi.dev.cps.service.ChannelProcessorBImpl;
+import com.salvi.dev.cps.service.ChannelProcessorCImpl;
+import com.salvi.dev.cps.service.ChannelProcessorYImpl;
 import com.salvi.dev.cps.service.Input;
 import com.salvi.dev.cps.service.Metric;
 import com.salvi.dev.cps.service.Output;
 import com.salvi.dev.cps.service.Parameter;
 
-import java.util.Arrays;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
-
 class ChannelProcessorTest {
 
-    ChannelProcessor processor = new ChannelProcessor();
+    ChannelProcessor processor;
     Parameter parameter = new Parameter();
     Metric metric = new Metric();
     Input channelInput = new Input();
@@ -23,28 +32,14 @@ class ChannelProcessorTest {
     void testReadChannel() {
         List<String> lines = Arrays.asList("X, 1.0, 2.0, 3.0, 4.0, 5.0");
         List<Double> expected = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
-        List<Double> result = processor.readChannel("X", lines);
+        List<Double> result = readChannel("X", lines);
         assertEquals(expected, result);
     }
 
     @Test
     void testReadChannel_InvalidInput() {
         List<String> lines = Arrays.asList("G, 1.0, 2.0, 3.0, 4.0, 5.0");
-        assertThrows(IllegalArgumentException.class, () -> processor.readChannel("X", lines));
-    }
-
-    @Test
-    void testCalculateMetric() {
-        List<Double> data = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
-        double expected = 3.0;
-        Metric result = processor.calculateMetric("b", data);
-        assertEquals(expected, result.getB(), 0.001);
-    }
-
-    @Test
-    void testCalculateMetric_InvalidMetric() {
-        List<Double> data = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
-        assertThrows(IllegalArgumentException.class, () -> processor.calculateMetric("z", data));
+        assertThrows(IllegalArgumentException.class, () -> readChannel("X", lines));
     }
 
     @Test
@@ -54,7 +49,8 @@ class ChannelProcessorTest {
         parameter.setM(2.0);
         parameter.setC(1.0);
         List<Double> expected = Arrays.asList(3.0, 5.0, 7.0, 9.0, 11.0);
-        Output result = processor.getChannelDataForY(parameter, channelInput);
+        processor = new ChannelProcessorYImpl();
+        Output result = processor.function(parameter, channelInput);
         assertEquals(expected, result.getChannel().getY());
     }
 
@@ -65,7 +61,8 @@ class ChannelProcessorTest {
         parameter.setM(2.0);
         parameter.setC(1.0);
         List<Double> expectedChannelA = Arrays.asList(1.0, 0.5, 0.3333333333333333, 0.25, 0.20);
-        Output result = processor.getChannelDataForA(parameter, channelInput);
+        processor = new ChannelProcessorAImpl();
+        Output result = processor.function(parameter, channelInput);
         assertEquals(expectedChannelA, result.getChannel().getA());
     }
 
@@ -80,7 +77,8 @@ class ChannelProcessorTest {
         List<Double> Y = Arrays.asList(14.0, 15.0, 11.0, 14.0, 19.0);
         channelInput.getChannel().setY(Y);
         List<Double> expected = Arrays.asList(18.0, 20.0, 12.0, 18.0, 28.0);
-        Output result = processor.getChannelDataForBandMetric_b(parameter, channelInput);
+        processor = new ChannelProcessorBImpl();
+        Output result = processor.function(parameter, channelInput);
         Double expectedMetric_b = 19.2;
         assertEquals(expectedMetric_b, result.getMetric().getB());
         assertEquals(expected, result.getChannel().getB());
@@ -92,7 +90,8 @@ class ChannelProcessorTest {
         channelInput.getChannel().setX(X);
         channelInput.getMetric().setB(3.0);
         List<Double> expected = Arrays.asList(4.0, 5.0, 6.0, 7.0, 8.0);
-        Output result = processor.getChannelDataForC(parameter, channelInput);
+        processor = new ChannelProcessorCImpl();
+        Output result = processor.function(parameter, channelInput);
         assertEquals(expected, result.getChannel().getC());
     }
 
@@ -100,9 +99,9 @@ class ChannelProcessorTest {
     void testWriteChannel() {
         List<Double> data = Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0);
         String name = "X";
-        processor.writeChannel(name, data);
+        writeChannel(name, data);
         List<String> lines = Arrays.asList("X, 1.0, 2.0, 3.0, 4.0, 5.0");
-        List<Double> result = processor.readChannel(name, lines);
+        List<Double> result = ChannelProcessor.readChannel(name, lines);
         assertEquals(data, result);
     }
 
@@ -112,7 +111,7 @@ class ChannelProcessorTest {
         Parameter expected = new Parameter();
         expected.setM(2.0);
         expected.setC(1.0);
-        Parameter result = processor.readParameters(paramLines);
+        Parameter result = readParameters(paramLines);
         assertEquals(expected.getM(), result.getM());
         assertEquals(expected.getC(), result.getC());
     }
@@ -123,7 +122,7 @@ class ChannelProcessorTest {
         Parameter expected = new Parameter();
         expected.setM(1.0);
         expected.setC(2.0);
-        Parameter result = processor.readParameters(paramLines);
+        Parameter result = readParameters(paramLines);
         assertEquals(expected.getM(), result.getM());
         assertEquals(expected.getC(), result.getC());
     }
@@ -133,16 +132,18 @@ class ChannelProcessorTest {
         List<Double> X = Arrays.asList();
         channelInput.getChannel().setX(X);
         double b = 3.0;
-        parameter.setB(b);
+        channelInput.getMetric().setB(b);
         List<Double> expected = Arrays.asList();
-        Output result = processor.getChannelDataForC(parameter, channelInput);
+        processor = new ChannelProcessorCImpl();
+        Output result = processor.function(parameter, channelInput);
         assertEquals(expected, result.getChannel().getC());
     }
 
     @Test
     void testGetChannelDataForB_WithEmptyInput() {
+        processor = new ChannelProcessorBImpl();
         assertThrows(IllegalArgumentException.class,
-                () -> processor.getChannelDataForBandMetric_b(parameter, channelInput));
+                () -> processor.function(parameter, channelInput));
     }
 
     @Test
@@ -151,7 +152,8 @@ class ChannelProcessorTest {
         parameter.setM(2.0);
         parameter.setC(1.0);
         List<Double> expected = Arrays.asList();
-        Output result = processor.getChannelDataForA(parameter, channelInput);
+        processor = new ChannelProcessorAImpl();
+        Output result = processor.function(parameter, channelInput);
         assertEquals(expected, result.getChannel().getA());
     }
 }

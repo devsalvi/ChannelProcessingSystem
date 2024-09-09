@@ -3,7 +3,6 @@ package com.salvi.dev.cps.service;
 public class Parameter {
     double m;
     double c;
-    double b;
     
     public double getM() {
         return m;
@@ -17,11 +16,5 @@ public class Parameter {
     }
     public void setC(double c) {
         this.c = c;
-    }
-    public double getB() {
-        return b;
-    }
-    public void setB(double b) {
-        this.b = b;
     }
 }

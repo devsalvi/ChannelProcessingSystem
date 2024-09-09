@@ -8,11 +8,11 @@
 		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.salvi.dev.technicalTest</groupId>
+	<groupId>com.salvi.dev</groupId>
 	<artifactId>channelProcessingSystem</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<name>channelProcessingSystem</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Dev Salvi Test project</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -63,6 +63,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- Add other dependencies as needed -->
 	</dependencies>
 
 </project>
