@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 public class ChannelProcessor {
 
-    Outputs outputs;
+    Output outputs;
 
     public ChannelProcessor() {
-        outputs = new Outputs();
+        outputs = new Output();
     }
 
     public List<Double> readChannel(String name, List<String> lines) {
@@ -55,14 +55,14 @@ public class ChannelProcessor {
         return metric;
     }
 
-    public Outputs getChannelDataForA(Parameter parameters, Input inputs) {
+    public Output getChannelDataForA(Parameter parameters, Input inputs) {
         outputs.getChannel()
                 .setA(inputs.getChannel().getX().stream().map(x -> (1/x))
                         .collect(Collectors.toList()));
         return outputs;
     }
 
-    public Outputs getChannelDataForBandMetric_b(Parameter parameters, Input inputs) {
+    public Output getChannelDataForBandMetric_b(Parameter parameters, Input inputs) {
        try {
             List<Double> B = inputs.getChannel().getA().stream()
                     .map(a -> a + inputs.getChannel().getY().get(inputs.getChannel().getA().indexOf(a)))
@@ -76,14 +76,14 @@ public class ChannelProcessor {
         return outputs;
     }
 
-    public Outputs getChannelDataForY(Parameter parameters, Input inputs) {
+    public Output getChannelDataForY(Parameter parameters, Input inputs) {
         List<Double> Y = inputs.getChannel().getX().stream().map(x -> parameters.getM() * x + parameters.getC())
                 .collect(Collectors.toList());
         outputs.getChannel().setY(Y);
         return outputs;
     }
 
-    public Outputs getChannelDataForC(Parameter parameters, Input inputs) {
+    public Output getChannelDataForC(Parameter parameters, Input inputs) {
         List<Double> C = inputs.getChannel().getX().stream().map(x -> x + inputs.getMetric().getB())
                 .collect(Collectors.toList());
         outputs.getChannel().setC(C);

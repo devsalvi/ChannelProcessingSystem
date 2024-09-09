@@ -1,10 +1,10 @@
 package com.salvi.dev.cps.service;
 
-public class Outputs {
+public class Output {
     Channel channel;
     Metric metric;
 
-    public Outputs() {
+    public Output() {
         channel = new Channel();
         metric = new Metric();
     }

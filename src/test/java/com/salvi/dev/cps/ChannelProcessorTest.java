@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import com.salvi.dev.cps.service.ChannelProcessor;
 import com.salvi.dev.cps.service.Input;
 import com.salvi.dev.cps.service.Metric;
-import com.salvi.dev.cps.service.Outputs;
+import com.salvi.dev.cps.service.Output;
 import com.salvi.dev.cps.service.Parameter;
 
 import java.util.Arrays;
@@ -54,7 +54,7 @@ class ChannelProcessorTest {
         parameter.setM(2.0);
         parameter.setC(1.0);
         List<Double> expected = Arrays.asList(3.0, 5.0, 7.0, 9.0, 11.0);
-        Outputs result = processor.getChannelDataForY(parameter, channelInput);
+        Output result = processor.getChannelDataForY(parameter, channelInput);
         assertEquals(expected, result.getChannel().getY());
     }
 
@@ -65,7 +65,7 @@ class ChannelProcessorTest {
         parameter.setM(2.0);
         parameter.setC(1.0);
         List<Double> expectedChannelA = Arrays.asList(1.0, 0.5, 0.3333333333333333, 0.25, 0.20);
-        Outputs result = processor.getChannelDataForA(parameter, channelInput);
+        Output result = processor.getChannelDataForA(parameter, channelInput);
         assertEquals(expectedChannelA, result.getChannel().getA());
     }
 
@@ -80,7 +80,7 @@ class ChannelProcessorTest {
         List<Double> Y = Arrays.asList(14.0, 15.0, 11.0, 14.0, 19.0);
         channelInput.getChannel().setY(Y);
         List<Double> expected = Arrays.asList(18.0, 20.0, 12.0, 18.0, 28.0);
-        Outputs result = processor.getChannelDataForBandMetric_b(parameter, channelInput);
+        Output result = processor.getChannelDataForBandMetric_b(parameter, channelInput);
         Double expectedMetric_b = 19.2;
         assertEquals(expectedMetric_b, result.getMetric().getB());
         assertEquals(expected, result.getChannel().getB());
@@ -92,7 +92,7 @@ class ChannelProcessorTest {
         channelInput.getChannel().setX(X);
         channelInput.getMetric().setB(3.0);
         List<Double> expected = Arrays.asList(4.0, 5.0, 6.0, 7.0, 8.0);
-        Outputs result = processor.getChannelDataForC(parameter, channelInput);
+        Output result = processor.getChannelDataForC(parameter, channelInput);
         assertEquals(expected, result.getChannel().getC());
     }
 
@@ -135,7 +135,7 @@ class ChannelProcessorTest {
         double b = 3.0;
         parameter.setB(b);
         List<Double> expected = Arrays.asList();
-        Outputs result = processor.getChannelDataForC(parameter, channelInput);
+        Output result = processor.getChannelDataForC(parameter, channelInput);
         assertEquals(expected, result.getChannel().getC());
     }
 
@@ -151,7 +151,7 @@ class ChannelProcessorTest {
         parameter.setM(2.0);
         parameter.setC(1.0);
         List<Double> expected = Arrays.asList();
-        Outputs result = processor.getChannelDataForA(parameter, channelInput);
+        Output result = processor.getChannelDataForA(parameter, channelInput);
         assertEquals(expected, result.getChannel().getA());
     }
 }

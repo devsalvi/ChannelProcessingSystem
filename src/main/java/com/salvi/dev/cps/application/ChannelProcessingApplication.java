@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.salvi.dev.cps.service.ChannelProcessor;
 import com.salvi.dev.cps.service.Input;
-import com.salvi.dev.cps.service.Outputs;
+import com.salvi.dev.cps.service.Output;
 import com.salvi.dev.cps.service.Parameter;
 
 @SpringBootApplication
@@ -19,7 +19,7 @@ public class ChannelProcessingApplication {
 		ChannelProcessor processor = new ChannelProcessor();
 		Input input = new Input();
 		Parameter parameter = new Parameter();
-		Outputs outputs = new Outputs();
+		Output outputs = new Output();
 
 		try {
 			// Read input channels from channels.txt
