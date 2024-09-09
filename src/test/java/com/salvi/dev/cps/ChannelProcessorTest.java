@@ -1,4 +1,4 @@
-package com.salvi.dev.technicalTest;
+package com.salvi.dev.cps;
 
 import org.junit.jupiter.api.Test;
 
