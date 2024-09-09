@@ -8,10 +8,10 @@
 		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.salvi.dev.javarefresher</groupId>
-	<artifactId>javarefresher</artifactId>
+	<groupId>com.salvi.dev.technicalTest</groupId>
+	<artifactId>channelProcessingSystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>javarefresher</name>
+	<name>channelProcessingSystem</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -36,7 +36,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.salvi.dev.javarefresher.javarefresher.JavarefresherApplication</mainClass>
+							<mainClass>com.salvi.dev.cps.application.ChannelProcessingApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -44,7 +44,7 @@
 		</plugins>
 	</build>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 
