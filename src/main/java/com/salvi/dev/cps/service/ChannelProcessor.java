@@ -1,5 +1,6 @@
 package com.salvi.dev.cps.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,16 +17,19 @@ public abstract class ChannelProcessor {
      * @return channel data
      */
     public static List<Double> readChannel(String name, List<String> lines) {
+        List<Double> channel = new ArrayList<>();
         for (String line : lines) {
             if (line.startsWith(name)) {
                 String[] parts = line.split(name)[1].trim().split(",");
-                return Arrays.stream(parts)
+                channel = Arrays.stream(parts)
                         .filter(part -> !part.isEmpty())
                         .map(Double::parseDouble)
                         .collect(Collectors.toList());
+            } else {
+                throw new IllegalArgumentException("Invalid channel name");
             }
         }
-        throw new IllegalArgumentException("Channel " + name + " not found in channels.txt");
+        return channel;
     }
 
     public static void writeChannel(String name, List<Double> data) {

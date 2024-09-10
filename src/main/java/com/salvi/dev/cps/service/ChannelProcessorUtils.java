@@ -18,17 +18,18 @@ public class ChannelProcessorUtils {
      * @param channelsFileStr   - file path of channels.txt
      * @param parametersFileStr - file path of parameters.txt
      * @return metric b
+     * @throws Exception
      */
-    public double calculateMetric_b(String channelsFileStr, String parametersFileStr) {
+    public double calculateMetric_b(String channelsFileStr, String parametersFileStr) throws Exception {
 
         double b = 0.0;
         b = executeFuntion2(channelsFileStr, parametersFileStr).getMetric().getB();
         return b;
     }
 
-    public Output executeFuntion1(String channelsFileStr, String parametersFileStr) {
+    public Output executeFuntion1(String channelsFileStr, String parametersFileStr) throws Exception {
         Output outputFn1 = new Output();
-       
+
         Parameter parameters = setBaseParameter(parametersFileStr);
         Input input = setBaseInput(channelsFileStr);
 
@@ -37,7 +38,7 @@ public class ChannelProcessorUtils {
         return outputFn1;
     }
 
-    public Output executeFuntion2(String channelsFileStr, String parametersFileStr) {
+    public Output executeFuntion2(String channelsFileStr, String parametersFileStr) throws Exception {
         List<Double> Y, A;
         Output outputFn2 = new Output();
 
@@ -59,7 +60,7 @@ public class ChannelProcessorUtils {
         return outputFn2;
     }
 
-    public Output executeFuntion3(String channelsFileStr, String parametersFileStr) {
+    public Output executeFuntion3(String channelsFileStr, String parametersFileStr) throws Exception {
         Output outputFn3 = new Output();
 
         Parameter parameters = setBaseParameter(parametersFileStr);
@@ -70,7 +71,7 @@ public class ChannelProcessorUtils {
         return outputFn3;
     }
 
-    public Output executeFuntion4(String channelsFileStr, String parametersFileStr) {
+    public Output executeFuntion4(String channelsFileStr, String parametersFileStr) throws Exception {
         Output outputFn4 = new Output();
 
         Parameter parameters = setBaseParameter(parametersFileStr);
@@ -86,27 +87,29 @@ public class ChannelProcessorUtils {
         return outputFn4;
     }
 
-    public Input setBaseInput(String channelsFileStr) {
+    public Input setBaseInput(String channelsFileStr) throws Exception {
         Input input = new Input();
         try {
             List<String> channelLines = Files
                     .readAllLines(Paths.get(channelsFileStr.isBlank() ? "channels.txt" : channelsFileStr));
             List<Double> X = readChannel("X", channelLines);
             input.getChannel().setX(X);
-        } catch (IOException e) {
+        } catch (IllegalArgumentException | IOException e) {
             e.printStackTrace();
+            throw e;
         }
         return input;
     }
 
-    public Parameter setBaseParameter(String parametersFileStr) {
+    public Parameter setBaseParameter(String parametersFileStr) throws Exception {
         Parameter parameter = new Parameter();
         try {
             List<String> paramLines = Files
                     .readAllLines(Paths.get(parametersFileStr.isBlank() ? "parameters.txt" : parametersFileStr));
             parameter = readParameters(paramLines);
-        } catch (IOException e) {
+        } catch (IllegalArgumentException | IOException e) {
             e.printStackTrace();
+            throw e;
         }
         return parameter;
     }
