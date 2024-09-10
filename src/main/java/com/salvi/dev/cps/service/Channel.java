@@ -2,6 +2,9 @@ package com.salvi.dev.cps.service;
 
 import java.util.List;
 
+/*
+ * Channel class to store the values of A, B, C, X and Y
+ */
 public class Channel {
 
     List<Double> A;

@@ -1,6 +1,6 @@
 package com.salvi.dev.cps.application;
 
-// import static com.salvi.dev.cps.service.ChannelProcessor.writeChannel;//implemented but unused functionality
+// import static com.salvi.dev.cps.service.ChannelProcessor.writeChannel;//To be implemented
 import static com.salvi.dev.cps.service.ChannelProcessor.readChannel;
 import static com.salvi.dev.cps.service.ChannelProcessor.readParameters;
 
@@ -27,17 +27,17 @@ public class ChannelProcessingApplication {
 
 		Input input = new Input();
 		Parameter parameter = new Parameter();
-		Output outputF1, outputF2, outputF3, outputF4 = new Output();
+		Output outputF1, outputF2, outputF3, outputF4 = new Output(); // outputF4 is unused in this example
 
 		ChannelProcessor processor;
 
 		try {
 			// Read input channels from channels.txt
-			List<String> channelLines = Files.readAllLines(Paths.get("channels.txt"));
+			List<String> channelLines = Files.readAllLines(Paths.get(args.length > 0 ? args[0] : "channels.txt"));
 			input.getChannel().setX(readChannel("X", channelLines));
 
 			// Read parameters from parameters.txt
-			List<String> paramLines = Files.readAllLines(Paths.get("parameters.txt"));
+			List<String> paramLines = Files.readAllLines(Paths.get(args.length > 1 ? args[1] : "parameters.txt"));
 			parameter = readParameters(paramLines);
 
 			// Process channels using the defined functions
@@ -46,18 +46,18 @@ public class ChannelProcessingApplication {
 			input.getChannel().setY(outputF1.getChannel().getY());
 
 			processor = new ChannelProcessorAImpl();
-			outputF2 = processor.function(parameter, input);
-			input.getChannel().setA(outputF2.getChannel().getA());
+			outputF3 = processor.function(parameter, input);
+			input.getChannel().setA(outputF3.getChannel().getA());
 
 			processor = new ChannelProcessorBImpl();
-			outputF3 = processor.function(parameter, input);
-			input.getChannel().setB(outputF3.getChannel().getB());
-			input.setMetric(outputF3.getMetric());
+			outputF2 = processor.function(parameter, input);
+			input.getChannel().setB(outputF2.getChannel().getB());
+			input.setMetric(outputF2.getMetric());
 
 			processor = new ChannelProcessorCImpl();
 			outputF4 = processor.function(parameter, input);// unused function4 output
 
-			System.out.println("Metric b: " + outputF3.getMetric().getB());
+			System.out.println("Metric b: " + outputF2.getMetric().getB());
 
 		} catch (IOException e) {
 			e.printStackTrace();

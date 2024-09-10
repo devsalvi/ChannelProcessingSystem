@@ -4,10 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Abstract class to process channels
+ */
 public abstract class ChannelProcessor {
-     public abstract Output function(Parameter parameters, Input inputs);
+    public abstract Output function(Parameter parameters, Input inputs);
 
-     public static List<Double> readChannel(String name, List<String> lines) {
+    /**
+     * @param name
+     * @param lines
+     * @return channel data
+     */
+    public static List<Double> readChannel(String name, List<String> lines) {
         for (String line : lines) {
             if (line.startsWith(name)) {
                 String[] parts = line.split(name)[1].trim().split(",");
@@ -25,6 +33,10 @@ public abstract class ChannelProcessor {
         System.out.println("Channel " + name + ": " + data);
     }
 
+    /**
+     * @param paramLines
+     * @return parameters m and c
+     */
     public static Parameter readParameters(List<String> paramLines) {
         Parameter parameter = new Parameter();
         String param1 = paramLines.getFirst().split(",")[0].trim().toLowerCase();
@@ -37,6 +49,13 @@ public abstract class ChannelProcessor {
         return parameter;
     }
 
+    /**
+     * Function to parse m and c from parameters.txt
+     * 
+     * @param param
+     * @param value
+     * @param parameter
+     */
     private static void setParameter(String param, double value, Parameter parameter) {
         switch (param) {
             case "m":

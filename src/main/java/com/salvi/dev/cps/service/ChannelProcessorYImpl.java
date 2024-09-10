@@ -3,7 +3,17 @@ package com.salvi.dev.cps.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Channel Processor Y implementation
+ */
 public class ChannelProcessorYImpl extends ChannelProcessor {
+    /**
+     * Function to calculate Y = mX + c
+     * 
+     * @param parameters
+     * @param inputs
+     * @return Output with channel Y
+     */
     @Override
     public Output function(Parameter parameters, Input inputs) {
         Output outputs = new Output();

@@ -7,9 +7,7 @@ ChannelProcessingSystem is a Java-based project designed to process and analyze 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Running Tests](#running-tests)
-- [Building the Project](#building-the-project)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Installation
 
@@ -19,25 +17,36 @@ To get started with the ChannelProcessingSystem project, clone the repository an
 git clone https://github.com/yourusername/ChannelProcessingSystem.git
 cd ChannelProcessingSystem
 mvn clean install
+```
 
 ## Usage
+ChannelProcessingSystem can be tested with a simple webapp created here: http://52.15.67.195:8080/ by uploading channels.txt and parameters.txt. This online version of the app has file size limits set to 1MB
 
-To run the ChannelProcessingSystem class, follow these steps:
+OR to run the app locally:
 
-1. Make sure you have Java installed on your system.
+1. Make sure you have Java 21 installed on your system.
 2. Open a terminal or command prompt.
 3. Navigate to the root directory of the project.
 4. Build the project using Maven by running the following command:
 
     ```sh
-    mvn clean install
+    mvn clean package
     ```
 
 5. Once the build is successful, you can run the ChannelProcessingSystem class by executing the following command:
 
+If channels.txt and parameters.txt files are present in the same folder as execution
     ```sh
-java -cp target/javarefresher-0.0.1-SNAPSHOT.jar com.salvi.dev.javarefresher.javarefresher.ChannelProcessor
+ java -jar target/channelProcessingSystem-1.0-SNAPSHOT.jar
+    ```
+If paths to channels.txt and parameters.txt files are sent as arguments
+    ```sh
+ java -jar target/channelProcessingSystem-1.0-SNAPSHOT.jar /pathToChannelsTxt/channels.txt /pathToParametersTxt/parameters.txt
     ```
 
-
 6. The ChannelProcessingSystem should now start running and processing the channel data.
+
+## Running Tests
+```sh
+mvn clean test
+```

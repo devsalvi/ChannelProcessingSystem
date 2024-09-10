@@ -3,7 +3,17 @@ package com.salvi.dev.cps.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Channel Processor B implementation
+ */
 public class ChannelProcessorBImpl extends ChannelProcessor {
+    /**
+     * Function to calculate B = A + Y
+     * 
+     * @param parameters
+     * @param inputs
+     * @return Output with channel B and metric b
+     */
     @Override
     public Output function(Parameter parameters, Input inputs) {
         Output outputs = new Output();
@@ -20,6 +30,12 @@ public class ChannelProcessorBImpl extends ChannelProcessor {
         return outputs;
     }
 
+    /**
+     * Function to calculate metric b
+     * 
+     * @param data
+     * @return metric b
+     */
     private Metric calculateMetric(List<Double> data) {
         Metric metric = new Metric();
         metric.setB(data.stream().mapToDouble(Double::doubleValue).average().orElse(0.0));

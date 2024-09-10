@@ -1,5 +1,8 @@
 package com.salvi.dev.cps.service;
 
+/**
+ * Input class to store the values of A, B, C, X and Y
+ */
 public class IOParams {
     Channel channel;
     Metric metric;
