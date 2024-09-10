@@ -35,7 +35,9 @@ mvn clean install
     java -jar channelProcessingSystem-1.0-SNAPSHOT.jar
 ```
 > 5. Please follow prompts to continue
->> <img width="666" alt="Screenshot 2024-09-10 at 12 07 05 PM" src="https://github.com/user-attachments/assets/51720cc7-5108-4f0c-8fb1-c18326dbd9c9">
+>> <img width="691" alt="Screenshot 2024-09-10 at 3 09 27 PM" src="https://github.com/user-attachments/assets/b02cfbff-4880-4b22-adbe-0d0705f1006b">
+
+
 > 5. You can also build the project using Maven by running the following command:
 
 ```sh
