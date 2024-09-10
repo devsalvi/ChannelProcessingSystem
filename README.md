@@ -31,20 +31,20 @@ mvn clean install
 > 3. Navigate to the root directory of the project.
 > 4. Build the project using Maven by running the following command:
 
-    ```sh
+```sh
     mvn clean package
-    ```
+```
 > 5. Once the build is successful, you can run the ChannelProcessingSystem class by executing the following command:
 If channels.txt and parameters.txt files are present in the same folder as execution
 
-    ```sh
+```sh
     java -jar target/channelProcessingSystem-1.0-SNAPSHOT.jar
-    ```
+```
     If paths to channels.txt and parameters.txt files are sent as arguments
 
-    ```sh
+```sh
     java -jar target/channelProcessingSystem-1.0-SNAPSHOT.jar /pathToChannelsTxt/channels.txt /pathToParametersTxt/parameters.txt
-    ```
+```
 
 > 6. The ChannelProcessingSystem should now start running and processing the channel data.
 
