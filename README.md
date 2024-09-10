@@ -14,7 +14,7 @@ ChannelProcessingSystem is a Java-based project designed to process and analyze 
 To get started with the ChannelProcessingSystem project, clone the repository and build the project using Maven.
 
 ```sh
-git clone https://github.com/yourusername/ChannelProcessingSystem.git
+git clone https://github.com/devsalvi/ChannelProcessingSystem.git
 cd ChannelProcessingSystem
 mvn clean install
 ```
