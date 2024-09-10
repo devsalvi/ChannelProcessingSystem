@@ -1,6 +1,6 @@
 # ChannelProcessingSystem
 
-ChannelProcessingSystem is a Java-based project designed to process and analyze channel data. This project includes various functions to read, write, and process channel data, as well as calculate metrics.
+ChannelProcessingSystem is a Java-based project designed to process and analyze channel data. This project includes functions to read, write, and process channel data, as well as calculate metrics.
 
 ## Table of Contents
 
