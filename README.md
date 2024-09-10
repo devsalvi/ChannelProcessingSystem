@@ -34,14 +34,12 @@ OR to run the app locally:
     ```
 
 5. Once the build is successful, you can run the ChannelProcessingSystem class by executing the following command:
-
 If channels.txt and parameters.txt files are present in the same folder as execution
 
     ```sh
     java -jar target/channelProcessingSystem-1.0-SNAPSHOT.jar
     ```
-
-If paths to channels.txt and parameters.txt files are sent as arguments
+    If paths to channels.txt and parameters.txt files are sent as arguments
 
     ```sh
     java -jar target/channelProcessingSystem-1.0-SNAPSHOT.jar /pathToChannelsTxt/channels.txt /pathToParametersTxt/parameters.txt
