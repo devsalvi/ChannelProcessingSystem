@@ -28,25 +28,27 @@ mvn clean install
 - Locally:
 > 1. Make sure you have Java 21 installed on your system.
 > 2. Open a terminal or command prompt.
-> 3. Navigate to the root directory of the project.
-> 4. Build the project using Maven by running the following command:
+> 3. Navigate to the root directory of the project. A pre packaged .jar file is included in this locatiom.
+> 4. Run java -jar command to execute application 
+>    
+```sh
+    java -jar channelProcessingSystem-1.0-SNAPSHOT.jar
+```
+> 5. Please follow prompts to continue
+>> <img width="666" alt="Screenshot 2024-09-10 at 12 07 05 PM" src="https://github.com/user-attachments/assets/51720cc7-5108-4f0c-8fb1-c18326dbd9c9">
+> 5. You can also build the project using Maven by running the following command:
 
 ```sh
     mvn clean package
+
 ```
-> 5. Once the build is successful, you can run the ChannelProcessingSystem class by executing the following command:
-If channels.txt and parameters.txt files are present in the same folder as execution
+> 6. Once the build is successful, you can run the ChannelProcessingSystem class by executing the following command:
 
 ```sh
     java -jar target/channelProcessingSystem-1.0-SNAPSHOT.jar
 ```
-    If paths to channels.txt and parameters.txt files are sent as arguments
 
-```sh
-    java -jar target/channelProcessingSystem-1.0-SNAPSHOT.jar /pathToChannelsTxt/channels.txt /pathToParametersTxt/parameters.txt
-```
-
-> 6. The ChannelProcessingSystem should now start running and processing the channel data.
+> 7. The ChannelProcessingSystem should now startup. Please follow application prompts to continue.
 
 ## Running Tests
 Code coverage report can be found by navigating to target/site/jacoco/index.html
