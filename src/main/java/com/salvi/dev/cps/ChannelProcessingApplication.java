@@ -1,4 +1,4 @@
-package com.salvi.dev.cps.application;
+package com.salvi.dev.cps;
 
 // import static com.salvi.dev.cps.service.ChannelProcessor.writeChannel;//implemented but unused functionality
 import static com.salvi.dev.cps.service.ChannelProcessor.readChannel;
@@ -9,8 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 
+import com.salvi.dev.cps.fileupload.StorageProperties;
+import com.salvi.dev.cps.fileupload.StorageService;
 import com.salvi.dev.cps.service.ChannelProcessor;
 import com.salvi.dev.cps.service.ChannelProcessorAImpl;
 import com.salvi.dev.cps.service.ChannelProcessorBImpl;
@@ -21,6 +27,7 @@ import com.salvi.dev.cps.service.Output;
 import com.salvi.dev.cps.service.Parameter;
 
 @SpringBootApplication
+@EnableConfigurationProperties(StorageProperties.class)
 public class ChannelProcessingApplication {
 
 	public static void main(String[] args) {
@@ -59,9 +66,19 @@ public class ChannelProcessingApplication {
 
 			System.out.println("Metric b: " + outputF3.getMetric().getB());
 
+			SpringApplication.run(ChannelProcessingApplication.class, args);
+			System.out.println("Application running successfully");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	@Bean
+	CommandLineRunner init(StorageService storageService) {
+		return (args) -> {
+			storageService.deleteAll();
+			storageService.init();
+		};
+	}
 }
