@@ -62,7 +62,7 @@ public class ChannelProcessingApplication {
 				default:
 					System.out.println("Invalid operation");
 			}
-			System.out.println("Do you want to continue processing? (Y/N)");
+			System.out.println("Press any key to continue processing, N to exit application");
 			String continueProcessingStr = scanner.nextLine();
 			if (continueProcessingStr.equalsIgnoreCase("N")) {
 				continueProcessing = false;
