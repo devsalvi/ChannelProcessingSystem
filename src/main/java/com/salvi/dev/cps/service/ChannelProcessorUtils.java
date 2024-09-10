@@ -101,6 +101,29 @@ public class ChannelProcessorUtils {
         return input;
     }
 
+    public Input setBaseInput(List<String> channelLines) throws Exception {
+        Input input = new Input();
+        try {
+            List<Double> X = readChannel("X", channelLines);
+            input.getChannel().setX(X);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return input;
+    }
+
+    public Parameter setBaseParameter(List<String> paramLines) throws Exception {
+        Parameter parameter = new Parameter();
+        try {
+            parameter = readParameters(paramLines);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return parameter;
+    }
+
     public Parameter setBaseParameter(String parametersFileStr) throws Exception {
         Parameter parameter = new Parameter();
         try {
@@ -112,5 +135,71 @@ public class ChannelProcessorUtils {
             throw e;
         }
         return parameter;
+    }
+
+    public double calculateMetricB(List<String> channelLines, List<String> paramLines) throws Exception {
+        double b = 0.0;
+        b = executeFunction2(channelLines, paramLines).getMetric().getB();
+        return b;
+    }
+
+    public Output executeFunction4(List<String> channelLines, List<String> paramLines) throws Exception {
+        Output outputFn4 = new Output();
+
+        Parameter parameters = setBaseParameter(paramLines);
+        Input input = setBaseInput(channelLines);
+
+        double b = 0.0;
+        b = executeFunction2(channelLines, paramLines).getMetric().getB();
+
+        input.getMetric().setB(b);
+
+        outputFn4 = new ChannelProcessorCImpl().function(parameters, input);
+        System.out.println("\nOutput: ");
+        return outputFn4;
+    }
+
+    public Output executeFunction3(List<String> channelLines, List<String> paramLines) throws Exception {
+        Output outputFn3 = new Output();
+
+        Parameter parameters = setBaseParameter(paramLines);
+        Input input = setBaseInput(channelLines);
+
+        outputFn3 = new ChannelProcessorAImpl().function(parameters, input);
+        System.out.println("\nOutput: ");
+        return outputFn3;
+    }
+
+    public Output executeFunction2(List<String> channelLines, List<String> paramLines) throws Exception {
+        List<Double> Y, A;
+        Output outputFn2 = new Output();
+
+        // Read parameters from parameters.txt
+        Parameter parameters = setBaseParameter(paramLines);
+        Input input = setBaseInput(channelLines);
+
+        Y = new ChannelProcessorYImpl().function(parameters, input).getChannel().getY(); // Calculate channel Y
+                                                                                         // using function1
+        A = new ChannelProcessorAImpl().function(parameters, input).getChannel().getA(); // Calculate channel A
+                                                                                         // using function3
+
+        input.getChannel().setY(Y); // Set channel Y as input for function2
+        input.getChannel().setA(A); // Set channel A as input for function2
+
+        outputFn2 = new ChannelProcessorBImpl().function(parameters, input); // Calculate metric b using
+                                                                             // function2
+        System.out.println("\nOutput: ");
+        return outputFn2;
+    }
+
+    public Output executeFunction1(List<String> channelLines, List<String> paramLines) throws Exception {
+        Output outputFn1 = new Output();
+
+        Parameter parameters = setBaseParameter(paramLines);
+        Input input = setBaseInput(channelLines);
+
+        outputFn1 = new ChannelProcessorYImpl().function(parameters, input);
+        System.out.println("\nOutput: ");
+        return outputFn1;
     }
 }

@@ -1,9 +1,9 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <body>
 
-	<div th:if="${message}">
+	<!-- <div th:if="${message}">
 		<h2 th:text="${message}"></h2>
-	</div>
+	</div> -->
 	<div th:text="${message} ?: 'Please upload channels and parameters files'">
 		Please upload channels and parameters files
 	</div>
@@ -20,6 +20,25 @@
 					<td><input type="file" name="parameters" /></td>
 					<td>*File size limited to 1MB</td>
 				</tr>
+
+				<!-- <tr>
+					<td>Please select an Operation:</td>
+					<input type="radio" name="operation" " value="1" />1. Execute function 1
+        			<input type="radio" name="operation" " value="2" />1. Execute function 2<br/>
+					<input type="radio" name="operation" " value="3" />1. Execute function 3<br
+        			<input type="radio" name="operation" " value="4" />1. Execute function 4<br/>
+					<input type="radio" name="operation" " value="5" />5. Calculate metric b<br/>
+				</tr> -->
+				<tr>
+                    <td>Please select an Operation:</td>
+                    <td>
+                        <input type="radio" name="operation" value="1" /> 1. Execute function 1<br/>
+                        <input type="radio" name="operation" value="2" /> 2. Execute function 2<br/>
+                        <input type="radio" name="operation" value="3" /> 3. Execute function 3<br/>
+                        <input type="radio" name="operation" value="4" /> 4. Execute function 4<br/>
+                        <input type="radio" name="operation" value="5" checked="checked"/> 5. Calculate metric b<br/>
+                    </td>
+                </tr>
 				<tr>
 					<td></td>
 					<td><input type="submit" value="Upload" /></td>

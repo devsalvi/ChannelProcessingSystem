@@ -2,13 +2,10 @@ package com.salvi.dev.cps.application;
 
 import java.util.Scanner;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import com.salvi.dev.cps.service.ChannelProcessorUtils;
 import com.salvi.dev.cps.service.Output;
 
-@SpringBootApplication
-public class ChannelProcessingApplication {
+public class ChannelProcessingLocalApplication {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);

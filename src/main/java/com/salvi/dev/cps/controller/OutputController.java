@@ -1,14 +1,19 @@
 package com.salvi.dev.cps.controller;
 
 import com.salvi.dev.cps.application.MBAMGApplication;
+import com.salvi.dev.cps.service.ChannelProcessorUtils;
 import com.salvi.dev.cps.service.Metric;
+import com.salvi.dev.cps.service.Output;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.channels.Channel;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +30,8 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class OutputController {
+    MultipartFile channelsFile;
+    MultipartFile parametersFile;
 
     @GetMapping("/")
     public String listUploadedFiles(Model model) throws IOException {
@@ -39,11 +46,15 @@ public class OutputController {
 
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("channels") MultipartFile channelsFile,
-            @RequestParam("parameters") MultipartFile parametersFile,
-            RedirectAttributes redirectAttributes) {
+            @RequestParam("parameters") MultipartFile parametersFile, @RequestParam("operation") int operation,
+            RedirectAttributes redirectAttributes) throws Exception {
         Metric outpuMetric = new Metric();
-
+        Output output = new Output();
+        ChannelProcessorUtils channelProcessorUtils = new ChannelProcessorUtils();  
+        this.channelsFile = channelsFile;
+        this.parametersFile = parametersFile;
         try {
+            System.out.println("Operation: " + operation);
             // Process channels.txt
             List<String> channelLines = new BufferedReader(new InputStreamReader(channelsFile.getInputStream()))
                     .lines().collect(Collectors.toList());
@@ -51,16 +62,48 @@ public class OutputController {
             // Process parameters.txt
             List<String> paramLines = new BufferedReader(new InputStreamReader(parametersFile.getInputStream()))
                     .lines().collect(Collectors.toList());
-
-            // Add your processing logic here
-            MBAMGApplication mbamgApplication = new MBAMGApplication();
-            outpuMetric = mbamgApplication.getMetric(channelLines, paramLines);
+System.out.println("Switch Operation");
+            // Handle the selected operation
+            switch (operation) {
+                case 1:
+                    // Execute function 1
+                    output = channelProcessorUtils.executeFunction1(channelLines, paramLines);
+                    redirectAttributes.addFlashAttribute("message",
+                    "Output: " + output);
+                    break;
+                case 2:
+                    // Execute function 2
+                    output = channelProcessorUtils.executeFunction2(channelLines, paramLines);
+                    redirectAttributes.addFlashAttribute("message",
+                    "Output: " + output);
+                    break;
+                case 3:
+                    // Execute function 3
+                    output = channelProcessorUtils.executeFunction3(channelLines, paramLines);
+                    redirectAttributes.addFlashAttribute("message",
+                    "Output: " + output);
+                    break;
+                case 4:
+                    // Execute function 4
+                    output = channelProcessorUtils.executeFunction4(channelLines, paramLines);
+                    redirectAttributes.addFlashAttribute("message",
+                    "Output: " + output);
+                    break;
+                case 5:
+                    // Calculate metric b
+                    double b = channelProcessorUtils.calculateMetricB(channelLines, paramLines);
+                    redirectAttributes.addFlashAttribute("message",
+                    "Results for metric b: " + b);
+                    break;
+                default:
+                    return "redirect:/";
+            }
 
         } catch (IOException | MaxUploadSizeExceededException e) {
             e.printStackTrace();
         }
-        redirectAttributes.addFlashAttribute("message",
-                "Results for metric b: " + outpuMetric.getB());
+        // redirectAttributes.addFlashAttribute("message",
+        //         "Results for metric b: " + outpuMetric.getB());
         return "redirect:/";
     }
 
