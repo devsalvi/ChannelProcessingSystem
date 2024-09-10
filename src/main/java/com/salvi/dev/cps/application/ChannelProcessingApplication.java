@@ -24,10 +24,10 @@ public class ChannelProcessingApplication {
 						"Enter the name of the file containing the parameters (press enter for default parameters.txt): ");
 				String parametersFile = scanner.nextLine();
 				System.out.println("Select an operation: ");
-				System.out.println("1. Execute function 1");
-				System.out.println("2. Execute function 2");
-				System.out.println("3. Execute function 3");
-				System.out.println("4. Execute function 4");
+				System.out.println("1. Execute function 1 -> 𝑌 = 𝑚𝑋 + 𝑐");
+				System.out.println("2. Execute function 2 -> 𝐵 = 𝐴 + 𝑌 𝑏 = 𝑚𝑒𝑎𝑛(𝐵)");
+				System.out.println("3. Execute function 3 -> 𝐴 = 1/𝑋");
+				System.out.println("4. Execute function 4 -> 𝐶 = 𝑋 + 𝑏");
 				System.out.println("5. Calculate metric b");
 				int operation = Integer.parseInt(scanner.nextLine());
 
