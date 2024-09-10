@@ -38,7 +38,8 @@ public class ChannelProcessorBImpl extends ChannelProcessor {
      */
     private Metric calculateMetric(List<Double> data) {
         Metric metric = new Metric();
-        metric.setB(data.stream().mapToDouble(Double::doubleValue).average().orElse(0.0));
+        double b = data.stream().mapToDouble(Double::doubleValue).average().orElse(0.0); // Calculate mean of channel B  
+        metric.setB(b);   
         return metric;
     }
 }
