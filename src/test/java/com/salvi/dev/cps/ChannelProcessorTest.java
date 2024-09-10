@@ -2,7 +2,6 @@ package com.salvi.dev.cps;
 
 import static com.salvi.dev.cps.service.ChannelProcessor.readChannel;
 import static com.salvi.dev.cps.service.ChannelProcessor.readParameters;
-import static com.salvi.dev.cps.service.ChannelProcessor.writeChannel;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

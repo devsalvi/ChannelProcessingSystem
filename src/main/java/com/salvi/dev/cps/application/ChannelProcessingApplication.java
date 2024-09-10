@@ -1,67 +1,75 @@
 package com.salvi.dev.cps.application;
 
-// import static com.salvi.dev.cps.service.ChannelProcessor.writeChannel;//To be implemented
-import static com.salvi.dev.cps.service.ChannelProcessor.readChannel;
-import static com.salvi.dev.cps.service.ChannelProcessor.readParameters;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import java.util.Scanner;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.salvi.dev.cps.service.ChannelProcessor;
-import com.salvi.dev.cps.service.ChannelProcessorAImpl;
-import com.salvi.dev.cps.service.ChannelProcessorBImpl;
-import com.salvi.dev.cps.service.ChannelProcessorCImpl;
-import com.salvi.dev.cps.service.ChannelProcessorYImpl;
-import com.salvi.dev.cps.service.Input;
+import com.salvi.dev.cps.service.ChannelProcessorUtils;
 import com.salvi.dev.cps.service.Output;
-import com.salvi.dev.cps.service.Parameter;
 
 @SpringBootApplication
 public class ChannelProcessingApplication {
 
 	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Channel Processing System");
+		boolean continueProcessing = true;
+		while (continueProcessing) {
 
-		Input input = new Input();
-		Parameter parameter = new Parameter();
-		Output outputF1, outputF2, outputF3, outputF4 = new Output(); // outputF4 is unused in this example
+			System.out.println(
+					"Enter the name of the file containing the channels (press enter for default channels.txt): ");
+			String channelsFile = scanner.nextLine();
+			System.out.println(
+					"Enter the name of the file containing the parameters (press enter for default parameters.txt): ");
+			String parametersFile = scanner.nextLine();
+			System.out.println("Select an operation: ");
+			System.out.println("1. Execute function 1");
+			System.out.println("2. Execute function 2");
+			System.out.println("3. Execute function 3");
+			System.out.println("4. Execute function 4");
+			System.out.println("5. Calculate metric b");
+			int operation = Integer.parseInt(scanner.nextLine());
 
-		ChannelProcessor processor;
-
-		try {
-			// Read input channels from channels.txt
-			List<String> channelLines = Files.readAllLines(Paths.get(args.length > 0 ? args[0] : "channels.txt"));
-			input.getChannel().setX(readChannel("X", channelLines));
-
-			// Read parameters from parameters.txt
-			List<String> paramLines = Files.readAllLines(Paths.get(args.length > 1 ? args[1] : "parameters.txt"));
-			parameter = readParameters(paramLines);
-
-			// Process channels using the defined functions
-			processor = new ChannelProcessorYImpl();
-			outputF1 = processor.function(parameter, input);
-			input.getChannel().setY(outputF1.getChannel().getY());
-
-			processor = new ChannelProcessorAImpl();
-			outputF3 = processor.function(parameter, input);
-			input.getChannel().setA(outputF3.getChannel().getA());
-
-			processor = new ChannelProcessorBImpl();
-			outputF2 = processor.function(parameter, input);
-			input.getChannel().setB(outputF2.getChannel().getB());
-			input.setMetric(outputF2.getMetric());
-
-			processor = new ChannelProcessorCImpl();
-			outputF4 = processor.function(parameter, input);// unused function4 output
-
-			System.out.println("Metric b: " + outputF2.getMetric().getB());
-
-		} catch (IOException e) {
-			e.printStackTrace();
+			ChannelProcessorUtils channelProcessorUtil = new ChannelProcessorUtils(); // ChannelProcessorUtil to help
+																					// calculate metrics, here
+																					// calculating b
+			switch (operation) {
+				case 1:
+					Output outputFn1 = channelProcessorUtil.executeFuntion1(channelsFile,
+							parametersFile);
+					System.out.println("Function 1 output: " + outputFn1);
+					break;
+				case 2:
+					Output outputFn2 = channelProcessorUtil.executeFuntion2(channelsFile,
+							parametersFile);
+					System.out.println("Function 2 output: " + outputFn2);
+					break;
+				case 3:
+					Output outputFn3 = channelProcessorUtil.executeFuntion3(channelsFile,
+							parametersFile);
+					System.out.println("Function 3 output: " + outputFn3);
+					break;
+				case 4:
+					Output outputFn4 = channelProcessorUtil.executeFuntion4(channelsFile,
+							parametersFile);
+					System.out.println("Function 4 output: " + outputFn4);
+					break;
+				case 5:
+					double metric_b = channelProcessorUtil.calculateMetric_b(channelsFile,
+							parametersFile);
+					System.out.println("Metric b: " + metric_b);
+					break;
+				default:
+					System.out.println("Invalid operation");
+			}
+			System.out.println("Do you want to continue processing? (Y/N)");
+			String continueProcessingStr = scanner.nextLine();
+			if (continueProcessingStr.equalsIgnoreCase("N")) {
+				continueProcessing = false;
+			}
 		}
+		scanner.close();
+
 	}
 
 }
