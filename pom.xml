@@ -36,7 +36,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.salvi.dev.cps.application.ChannelProcessingApplication</mainClass>
+							<mainClass>com.salvi.dev.cps.ChannelProcessingApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -68,6 +68,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
 		<!-- Add other dependencies as needed -->
 	</dependencies>
 
